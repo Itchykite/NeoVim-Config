@@ -21,6 +21,64 @@ vim.opt.cursorline = true          -- Podświetlenie linii kursora
 
 -- 📌 Instalacja i konfiguracja pluginów
 require("lazy").setup({
+
+    { "github/copilot.vim" },
+
+    {
+    -- 🔧 LSP dla Rust (rust-analyzer)
+      "neovim/nvim-lspconfig",
+      config = function()
+        require("lspconfig").rust_analyzer.setup({
+          settings = {
+            ["rust-analyzer"] = {
+              cargo = { allFeatures = true },
+              checkOnSave = { command = "clippy" },
+            }
+          }
+        })
+      end
+    },
+
+    {
+      -- 🔥 rust-tools.nvim dla lepszego wsparcia Rust
+      "simrat39/rust-tools.nvim",
+      dependencies = { "neovim/nvim-lspconfig" },
+      config = function()
+        local rt = require("rust-tools")
+        rt.setup({
+          server = {
+            settings = {
+              ["rust-analyzer"] = {
+                cargo = { allFeatures = true },
+                checkOnSave = { command = "clippy" },
+              }
+            }
+          }
+        })
+      end
+    },
+
+    -- Telescope 
+    { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" }, config = function()
+        local telescope = require("telescope")
+        telescope.setup({})
+        vim.keymap.set("n", "<leader>ff", ":Telescope find_files<CR>")
+        vim.keymap.set("n", "<leader>fg", ":Telescope live_grep<CR>")
+        vim.keymap.set("n", "<leader>fb", ":Telescope buffers<CR>")
+        vim.keymap.set("n", "<leader>fh", ":Telescope help_tags<CR>")
+    end },
+
+    -- Zarządzanie LSP
+    { "williamboman/mason.nvim", config = function()
+        require("mason").setup()
+    end },
+
+    { "williamboman/mason-lspconfig.nvim", dependencies = { "mason.nvim" }, config = function()
+        require("mason-lspconfig").setup({
+            ensure_installed = { "clangd", "lua_ls", "pyright" }
+        })
+    end },
+
     -- 🔄 Automatyczne domykanie nawiasów
     { "windwp/nvim-autopairs", config = function()
         require("nvim-autopairs").setup({})
@@ -33,8 +91,27 @@ require("lazy").setup({
 
     -- 🗂️ Drzewo plików (NvimTree)
     { "nvim-tree/nvim-tree.lua", config = function()
-        require("nvim-tree").setup()
-        vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
+        require("nvim-tree").setup({
+            view = {
+                width = 30,
+                side = "left",
+                mappings = {
+                    list = {
+                        -- Przypisanie do klawisza v (vsplit)
+                        { key = "v", action = "vsplit" },
+
+                        -- Przypisanie do klawisza s (split)
+                        { key = "s", action = "split" },
+
+                        -- Przypisanie do klawisza o (normalne otwarcie)
+                        { key = "o", action = "edit" },
+                    },
+                },
+            },
+        })
+
+        -- Toggle nvim-tree z <leader>e
+        vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>") 
     end },
 
     -- ⚡ Statusline (lualine)
@@ -98,3 +175,8 @@ vim.keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>")
 
 -- 🎮 Skróty klawiszowe dla Neomake
 vim.keymap.set("n", "<leader>m", ":Neomake<CR>")  -- Uruchamia kompilację (Neomake)
+
+vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
+
+
