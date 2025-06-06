@@ -113,6 +113,9 @@ require("lazy").setup({
     -- NvimTree
     {
       "nvim-tree/nvim-tree.lua",
+      dependencies = {
+        "nvim-tree/nvim-web-devicons", -- <== TO JEST KLUCZOWE
+      },
       config = function()
         require("nvim-tree").setup({
           view = {
@@ -126,11 +129,20 @@ require("lazy").setup({
               },
             },
           },
+          renderer = {
+            icons = {
+              show = {
+                file = true,
+                folder = true,
+                folder_arrow = true,
+                git = true,
+              },
+            },
+          },
         })
         vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
-      end
+      end,
     },
-
     -- Lualine
     {
       "nvim-lualine/lualine.nvim",
