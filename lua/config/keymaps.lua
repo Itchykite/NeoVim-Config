@@ -11,3 +11,7 @@ vim.keymap.set("n", "<leader>m", ":Neomake<CR>")  -- Uruchamia kompilację (Neom
 vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
 vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
 
+-- 🎮 Skróty klawiszowe dla Copilot
+vim.g.copilot_no_tab_map = true
+vim.api.nvim_set_keymap("i", "<C-j>", 'copilot#Accept("<CR>")', { silent = true, expr = true, noremap = true })
+
