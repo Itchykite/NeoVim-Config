@@ -37,7 +37,6 @@ require("lazy").setup({
         -- HTML, CSS, JS, TS
         lspconfig.html.setup({})
         lspconfig.cssls.setup({})
-        lspconfig.tsserver.setup({})
       end
     },
 
@@ -88,9 +87,18 @@ require("lazy").setup({
         require("mason-lspconfig").setup({
           ensure_installed = {
             "clangd", "lua_ls", "pyright",
-            "html", "cssls", "tsserver"
+            "html", "cssls" 
           }
         })
+      end
+    },
+
+    -- Użyj tsserver 
+    {
+      "pmizio/typescript-tools.nvim",
+      dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+      config = function()
+        require("typescript-tools").setup({})
       end
     },
 
@@ -114,18 +122,37 @@ require("lazy").setup({
     {
       "nvim-tree/nvim-tree.lua",
       dependencies = {
-        "nvim-tree/nvim-web-devicons", -- <== TO JEST KLUCZOWE
+        "nvim-tree/nvim-web-devicons",
       },
       config = function()
+        local function on_attach(bufnr)
+          local api = require("nvim-tree.api")
+          local function opts(desc)
+            return {
+              desc = "nvim-tree: " .. desc,
+              buffer = bufnr,
+              noremap = true,
+              silent = true,
+              nowait = true
+            }
+          end
+
+          local map = vim.keymap.set
+          map("n", "v", api.node.open.vertical, opts("Open: Vertical Split"))
+          map("n", "s", api.node.open.horizontal, opts("Open: Horizontal Split"))
+          map("n", "o", api.node.open.edit, opts("Open: Edit"))
+        end
+
         require("nvim-tree").setup({
+          on_attach = on_attach,
           view = {
             width = 30,
             side = "left",
-            mappings = {
-              list = {
-                { key = "v", action = "vsplit" },
-                { key = "s", action = "split" },
-                { key = "o", action = "edit" },
+          },
+          actions = {
+            open_file = {
+              window_picker = {
+                enable = false,
               },
             },
           },
@@ -140,9 +167,11 @@ require("lazy").setup({
             },
           },
         })
-        vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
+
+        vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "Toggle File Explorer" })
       end,
     },
+
     -- Lualine
     {
       "nvim-lualine/lualine.nvim",
@@ -160,9 +189,10 @@ require("lazy").setup({
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-nvim-lua",
+        "hrsh7th/cmp-nvim-lsp-signature-help",
         "saadparwaiz1/cmp_luasnip",
         "L3MON4D3/LuaSnip",
-      },
+        },
       config = function()
         local cmp = require("cmp")
         cmp.setup({
@@ -177,6 +207,7 @@ require("lazy").setup({
             { name = "luasnip" },
             { name = "buffer" },
             { name = "path" },
+            { name = "nvim_lsp_signature_help" },
           })
         })
       end
@@ -203,15 +234,6 @@ require("lazy").setup({
           highlight = { enable = true },
           indent = { enable = true },
         })
-      end
-    },
-
-    -- Neomake (kompilacja)
-    {
-      "neomake/neomake",
-      config = function()
-        vim.g.neomake_cpp_enabled_makers = { "clang++" }
-        vim.g.neomake_open_list = 2
       end
     },
 
