@@ -37,6 +37,7 @@ require("lazy").setup({
         -- HTML, CSS, JS, TS
         lspconfig.html.setup({})
         lspconfig.cssls.setup({})
+        lspconfig.jdtls.setup({})
       end
     },
 
@@ -87,7 +88,7 @@ require("lazy").setup({
         require("mason-lspconfig").setup({
           ensure_installed = {
             "clangd", "lua_ls", "pyright",
-            "html", "cssls" 
+            "html", "cssls", "jdtls" 
           }
         })
       end
@@ -140,7 +141,7 @@ require("lazy").setup({
           local map = vim.keymap.set
           map("n", "v", api.node.open.vertical, opts("Open: Vertical Split"))
           map("n", "s", api.node.open.horizontal, opts("Open: Horizontal Split"))
-          map("n", "o", api.node.open.edit, opts("Open: Edit"))
+          map("n", "<CR>", api.node.open.edit, opts("Open: Edit"))
         end
 
         require("nvim-tree").setup({
@@ -229,7 +230,8 @@ require("lazy").setup({
         require("nvim-treesitter.configs").setup({
           ensure_installed = {
             "cpp", "c", "lua", "vim", "bash",
-            "html", "css", "javascript", "typescript"
+            "html", "css", "javascript", "typescript", 
+            "java"
           },
           highlight = { enable = true },
           indent = { enable = true },
