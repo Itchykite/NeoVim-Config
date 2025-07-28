@@ -34,10 +34,14 @@ require("lazy").setup({
           }
         })
 
+        local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
         -- HTML, CSS, JS, TS
         lspconfig.html.setup({})
         lspconfig.cssls.setup({})
-        lspconfig.jdtls.setup({})
+        lspconfig.jdtls.setup({
+            capabilities = capabilities,
+        })
       end
     },
 
