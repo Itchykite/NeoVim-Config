@@ -16,7 +16,9 @@ return {
 							UseTab = "Never",
 							ColumnLimit = 120,
 
+							PointerAlignment = "Left",
 							BreakBeforeBraces = "Custom",
+							SortIncludes = false,
 
 							BraceWrapping = {
 								AfterClass = true,
