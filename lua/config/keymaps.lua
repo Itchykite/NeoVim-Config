@@ -1,17 +1,15 @@
--- 🎮 Skróty klawiszowe dla LSP
-vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
-vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
-vim.keymap.set("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
-vim.keymap.set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
-vim.keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>")
+-- Zredukowany plik keymaps.lua. Mapowania LSP są teraz w `plugins/lsp.lua` w funkcji on_attach.
 
--- 🎮 Skróty klawiszowe dla Neomake
-vim.keymap.set("n", "<leader>m", ":Neomake<CR>")  -- Uruchamia kompilację (Neomake)
+-- 🎮 Skróty do nawigacji i okien
+vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true, desc = "Przesuń zaznaczenie w dół" })
+vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true, desc = "Przesuń zaznaczenie w górę" })
 
-vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
-vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
+-- 🎮 Skróty dla diagnostyki LSP (pozostawione globalnie dla wygody)
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Idź do poprzedniego błędu" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Idź do następnego błędu" })
 
--- 🎮 Skróty klawiszowe dla Copilot
+-- 🎮 Skróty klawiszowe dla Copilot (teraz z copilot.lua)
+-- Konfiguracja przeniesiona do pliku wtyczki, ale skrót pozostaje ten sam.
+-- Poniższe ustawienia zostaną uszanowane przez nową wtyczkę.
 vim.g.copilot_no_tab_map = true
 vim.api.nvim_set_keymap("i", "<C-j>", 'copilot#Accept("<CR>")', { silent = true, expr = true, noremap = true })
-

@@ -8,4 +8,8 @@ vim.opt.autoindent = true          -- Automatyczne wcięcia
 vim.opt.termguicolors = true       -- Obsługa kolorów w terminalu
 vim.opt.clipboard = "unnamedplus"  -- Schowek systemowy
 vim.opt.cursorline = true          -- Podświetlenie linii kursora
+vim.opt.scrolloff = 8              -- Zachowaj 8 linii kontekstu podczas przewijania
+vim.opt.signcolumn = "yes"         -- Zawsze pokazuj kolumnę na znaki (np. Git, LSP)
 
+vim.g.mapleader = "\\"
+vim.g.maplocalleader = " "
