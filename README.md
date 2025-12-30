@@ -9,3 +9,5 @@ Config NeoVim
   - nvim-cmp          # autouzupełnianie
   - nvim-treesitter   # Drzewko składniowe
   - neomake           # Kompilowanie i budowanie kodu c++
+    
+there is more now, but i'm lazy like my plugin manager...
