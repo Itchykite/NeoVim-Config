@@ -1,8 +1,7 @@
--- Plik dedykowany do formatowania kodu za pomocą conform.nvim
 return {
 	{
 		"stevearc/conform.nvim",
-		event = { "BufWritePre" },
+		event = { "BufWritePre", "BufNewFile" },
 		cmd = { "ConformInfo" },
 		opts = {
 			-- Globalne ustawienia dla formatterów
@@ -19,6 +18,12 @@ return {
 							PointerAlignment = "Left",
 							BreakBeforeBraces = "Custom",
 							SortIncludes = false,
+							IndentCaseLabels = true,
+							NamespaceIndentation = "All",
+							SeparateDefinitionBlocks = "Always",
+							RemoveBracesLLVM = true,
+							RemoveEmptyLinesInUnwrappedLines = true,
+							AllowShortFunctionsOnASingleLine = "None",
 
 							BraceWrapping = {
 								AfterClass = true,
@@ -27,8 +32,9 @@ return {
 								AfterStruct = false,
 								AfterEnum = false,
 								AfterControlStatement = true,
-								BeforeCatch = false,
-								BeforeElse = false,
+								BeforeCatch = true,
+								BeforeElse = true,
+								AfterCaseLabel = true,
 							},
 						}),
 					},
