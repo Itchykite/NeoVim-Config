@@ -11,3 +11,5 @@ Config NeoVim
   - neomake           # Kompilowanie i budowanie kodu c++
     
 there is more now, but i'm lazy like my plugin manager...
+
+funny thing is that half of it is in English and the other half in Polish, i'm batman
